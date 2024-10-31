@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -14,7 +14,8 @@
   "packageManager": "npm@10.5.2",
   "overrides": {
     "react": "$react",
-    "react-dom": "$react-dom"
+    "react-dom": "$react-dom",
+    "next": "$next"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.0",
@@ -25,11 +26,11 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.454.0",
-    "next": "15.0.1",
+    "next": "15.0.0-canary.183",
     "next-auth": "^5.0.0-beta.25",
     "next-sanity": "^9.8.3-canary.1",
-    "react": "19.0.0-rc-69d4b800-20241021",
-    "react-dom": "19.0.0-rc-69d4b800-20241021",
+    "react": "^19.0.0-rc-603e6108-20241029",
+    "react-dom": "^19.0.0-rc-603e6108-20241029",
     "sanity": "^3.62.3",
     "sanity-plugin-markdown": "^5.0.0",
     "server-only": "^0.0.1",
