@@ -13,16 +13,18 @@
   },
   "packageManager": "npm@10.5.2",
   "overrides": {
-    "react": "$react",
-    "react-dom": "$react-dom",
-    "next": "$next"
+    "react": "^19.0.0-rc-603e6108-20241029",
+    "react-dom": "^19.0.0-rc-603e6108-20241029",
+    "next": "15.0.0-canary.183"
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.2",
     "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.60.0",
+    "@sentry/nextjs": "^8.36.0",
     "@tailwindcss/typography": "^0.5.15",
     "@uiw/react-md-editor": "^4.0.4",
     "class-variance-authority": "^0.7.0",
