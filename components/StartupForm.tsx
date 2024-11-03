@@ -9,11 +9,14 @@ import { Send } from "lucide-react";
 import { formSchema } from "@/lib/validation";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { createPitch } from "@/lib/actions";
 
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [pitch, setPitch] = useState("");
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
@@ -28,10 +31,21 @@ const StartupForm = () => {
       await formSchema.parseAsync(formValues);
 
       console.log(formValues);
-      
-      // Implement the logic to create the pitch and add it to the sanity
 
+      // logic to create the pitch using server action & add it to sanity
 
+      const result = await createPitch(prevState, formData, pitch);
+
+      if (result.status == "SUCCESS") {
+        toast({
+          title: "Success",
+          description: "Your startup pitch has been created successfully",
+        });
+
+        router.push(`/startup/${result._id}`);
+      }
+
+      return result;
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErorrs = error.flatten().fieldErrors;
@@ -72,13 +86,7 @@ const StartupForm = () => {
         <label htmlFor="title" className="startup-form_label">
           Title
         </label>
-        <Input
-          id="title"
-          name="title"
-          className="startup-form_input"
-          required
-          placeholder="Startup Title"
-        />
+        <Input id="title" name="title" className="startup-form_input" required placeholder="Startup Title" />
 
         {errors.title && <p className="startup-form_error">{errors.title}</p>}
       </div>
@@ -95,9 +103,7 @@ const StartupForm = () => {
           placeholder="Startup Description"
         />
 
-        {errors.description && (
-          <p className="startup-form_error">{errors.description}</p>
-        )}
+        {errors.description && <p className="startup-form_error">{errors.description}</p>}
       </div>
 
       <div>
@@ -112,22 +118,14 @@ const StartupForm = () => {
           placeholder="Startup Category (Tech, Health, Education...)"
         />
 
-        {errors.category && (
-          <p className="startup-form_error">{errors.category}</p>
-        )}
+        {errors.category && <p className="startup-form_error">{errors.category}</p>}
       </div>
 
       <div>
         <label htmlFor="link" className="startup-form_label">
           Image URL
         </label>
-        <Input
-          id="link"
-          name="link"
-          className="startup-form_input"
-          required
-          placeholder="Startup Image URL"
-        />
+        <Input id="link" name="link" className="startup-form_input" required placeholder="Startup Image URL" />
 
         {errors.link && <p className="startup-form_error">{errors.link}</p>}
       </div>
@@ -145,8 +143,7 @@ const StartupForm = () => {
           height={300}
           style={{ borderRadius: 20, overflow: "hidden" }}
           textareaProps={{
-            placeholder:
-              "Briefly describe your idea and what problem it solves",
+            placeholder: "Briefly describe your idea and what problem it solves",
           }}
           previewOptions={{
             disallowedElements: ["style"],
@@ -156,11 +153,7 @@ const StartupForm = () => {
         {errors.pitch && <p className="startup-form_error">{errors.pitch}</p>}
       </div>
 
-      <Button
-        type="submit"
-        className="startup-form_btn text-white"
-        disabled={isPending}
-      >
+      <Button type="submit" className="startup-form_btn text-white" disabled={isPending}>
         {isPending ? "Submitting..." : "Submit Your Pitch"}
         <Send className="size-6 ml-2" />
       </Button>
